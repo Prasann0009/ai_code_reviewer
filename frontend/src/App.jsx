@@ -8,6 +8,9 @@ import "highlight.js/styles/github-dark.css";
 import axios from "axios";
 import "./App.css";
 
+const VITE_BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 function App() {
   const [count, setCount] = useState(0);
   const [code, setCode] = useState(`function sum() {
@@ -21,7 +24,7 @@ function App() {
   });
 
   async function reviewCode() {
-    const response = await axios.post("/ai/get-review", {
+    const response = await axios.post(`${VITE_BACKEND_URL}/ai/get-review`, {
       code,
     });
     setReview(response.data);
