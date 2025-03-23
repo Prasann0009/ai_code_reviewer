@@ -29,16 +29,8 @@ main .right {
 main .left {
   background-color: black;
   position: relative;
-}
-
-.left .code,
-.code pre,
-.code pre code {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  border-radius: 0.7rem;
-  background-color: #0c0c0c;
+  display: flex;
+  flex-direction: column;
 }
 
 main .left .review {
@@ -54,9 +46,24 @@ main .left .review {
   border-radius: 0.7rem;
 }
 
+.left .code {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #ddd; /* Added border here */
+  border-radius: 0.7rem;
+  background-color: #0c0c0c;
+}
+
+.code pre,
+.code pre code {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box; /* Added box-sizing */
+  background-color: #0c0c0c;
+}
+
 main .right {
   background-color: #343434;
   padding: 1rem 2rem;
-  /* font-size: 1.5rem; */
   overflow: auto;
 }

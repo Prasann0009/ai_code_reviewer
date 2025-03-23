@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "prismjs/themes/prism-tomorrow.css";
-import Editor from "react-simple-code-editor";
 import prism from "prismjs";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -8,11 +7,11 @@ import "highlight.js/styles/github-dark.css";
 import axios from "axios";
 import "./App.css";
 
-const VITE_BACKEND_URL =
-  import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [code, setCode] = useState(`function sum() {
   return 1 + 1;
 }`);
@@ -24,9 +23,12 @@ function App() {
   });
 
   async function reviewCode() {
-    const response = await axios.post(`${VITE_BACKEND_URL}/ai/get-review`, {
-      code,
-    });
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/ai/get-review`,
+      {
+        code,
+      }
+    );
     setReview(response.data);
   }
 
@@ -34,21 +36,21 @@ function App() {
     <main>
       <div className="left">
         <div className="code">
-          <Editor
+          <AceEditor
+            mode="javascript"
+            theme="monokai"
             value={code}
-            onValueChange={(code) => setCode(code)}
-            highlight={(code) =>
-              prism.highlight(code, prism.languages.javascript, "javascript")
-            }
-            padding={10}
+            onChange={setCode}
+            name="code-editor"
+            editorProps={{ $blockScrolling: true }}
             style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 16,
+              width: "100%",
+              height: "100%",
+              // minHeight: "200px",
               border: "1px solid #ddd",
               borderRadius: "5px",
-              height: "100%",
-              width: "100%",
             }}
+            fontSize={18}
           />
         </div>
         <div onClick={reviewCode} className="review">
